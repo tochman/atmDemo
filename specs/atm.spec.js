@@ -5,7 +5,7 @@ const Atm = require('../src/atm')
 describe('Atm class', () => {
 
   let subject
-  before(()=> {
+  before(() => {
     subject = new Atm()
   })
 
@@ -20,5 +20,16 @@ describe('Atm class', () => {
   it('funds are reduced on withdraw', () => {
     subject.withdraw(50)
     expect(subject.funds).to.equal(950)
+  });
+
+  it('dispatches funds in bill denominations', () => {
+    const expectedBills = [20, 20, 10]
+    const response = subject.withdraw(50)
+    expect(response.bills).to.eql(expectedBills)
+  });
+
+  it('is expected to return a success message', () => {
+    let response = subject.withdraw(50)
+    expect(response.status).to.equal('success')
   });
 });
